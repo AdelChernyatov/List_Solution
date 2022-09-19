@@ -5,58 +5,49 @@ namespace ListSpace
 {
 	namespace TestList
 	{
-		void test1()
-		{
-			ListSpace::List l{ "Adel",100 };
-			std::cout << "My name is " << l.name << ";my mark is " << (int)l.mark
-				<< std::endl;
-			std::cout << sizeof(l)<<std::endl;
-		}
 		
-		void test2() 
-		{
-			/*ListSpace::List l{ "Adel",100 };
-			l.next = new List{ "Max",50 };
-			std::cout << "My name is " << l.next -> name << ";my mark is " << (int)l.next -> mark
-				<< std::endl;*/
+        void test1()
+        {
+            ListSpace::List l{ "Adel", 100 };
+            std::cout << "My name is " << l.name << "; my mark is " << static_cast<int>(l.mark) << std::endl;
 
-			List* head{nullptr};  // создаем указатель - занимает 8 байт
-			head = new List{ "Artur", 100 };
-			List ez{ "Dasha",56 };
-			//head->next = &ez;		// & - амперсант, с его помощью мы берем адрес
-			(*head).next = &ez;        // переменная типа List or head -> next
-			List* root{ head };
-			while (root != nullptr)
-			{
-				std::cout << "My name is " << (*head).name << ";my mark is " << (int)(*head).mark
-					<< std::endl;
-				root = root->next;
-				root->name;
-				root->mark;				// root = root -> next-> next перескок через один, но добавляется условие & root-> next != nullptr
-			}
-			
-			
-		}
-		void test3()
-		{
-			l = make_list(); // создаем список
-			make_list();
-			{
-				list <int> this_list = { 1,2,3,4 };
-			}
-			bool f = has_loop(l); // проверяем есть ли цикд
-
-			bool has_loop(List* head);      // для списка проверяет наличие списка и потом закинуть на leetcode
-			{
-				int t = 0;
-				int h = 0;
-				while (root != nullptr)
-				{
-					
-				}
-				return false;
-			}
-		};
+        }
+        void test2()
+        {
+            List* head{ nullptr };
+            head = new List{ "Albina", 99 };
+            List l2{ "Artur", 56 };
+            head->next = &l2;
+            List* root{ head };
+            while (root != nullptr)
+            {
+                std::cout << "My name is " << root->name << "; my mark is " << static_cast<int>(root->mark) << std::endl;
+                root = root->next;
+            }
+            /*ListSpace::List l;
+            l.next = new List{ "Mariya", 88 };
+            std::cout << "My name is " << l.next->name << "; my mark is " << static_cast<int>(l.next->mark) << std::endl;*/
+        }
+        void test3()
+        {
+            List* list3{ nullptr };
+            bool f = has_loop(list3);
+            std::cout << f << std::endl;
+        }
+        bool has_loop(List* head)
+        {
+            auto hare = head;
+            auto tortois = head;
+            head = new List{ "mariyam", 100 };
+            while (hare != NULL && hare->next != NULL)
+            {
+                hare = hare->next->next;
+                tortois = tortois->next;
+                if (hare == tortois)
+                    return true;
+            }
+            return false;
+        }
 
 
 

@@ -7,6 +7,7 @@ namespace ListSpace
 		void test1();
 		void test2();
 		void test3();
+		bool has_loop(List* list );
 	
 	} // Testlist
 } // ListSpace
