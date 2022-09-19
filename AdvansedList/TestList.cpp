@@ -1,5 +1,6 @@
 #include "TestList.h"
 #include <iostream>
+#include "ListFactory.h"
 #include <list>
 namespace ListSpace
 {
@@ -8,25 +9,20 @@ namespace ListSpace
 		
         void test1()
         {
-            ListSpace::List l{ "Adel", 100 };
-            std::cout << "My name is " << l.name << "; my mark is " << static_cast<int>(l.mark) << std::endl;
-
+            ListSpace::List* l = ListFactory::GenListof1el("Adel", 100);
+            std::cout << "My name is: " << l->name << "\nMy mark is: " << l->mark << std::endl;
+            
         }
         void test2()
         {
-            List* head{ nullptr };
-            head = new List{ "Albina", 99 };
-            List l2{ "Artur", 56 };
-            head->next = &l2;
-            List* root{ head };
-            while (root != nullptr)
+            ListSpace::List* l = ListFactory::GenListof1el("Adel", 100);
+            ListSpace::List* l2 = ListFactory::GenListof2el(l->name,l->mark,"Almaz",95);
+            List* head = l2;
+            while (head != nullptr)
             {
-                std::cout << "My name is " << root->name << "; my mark is " << static_cast<int>(root->mark) << std::endl;
-                root = root->next;
+                std::cout << "My name is " << head->name << "; my mark is " << static_cast<int>(head->mark) << std::endl;
+                head = head->next;
             }
-            /*ListSpace::List l;
-            l.next = new List{ "Mariya", 88 };
-            std::cout << "My name is " << l.next->name << "; my mark is " << static_cast<int>(l.next->mark) << std::endl;*/
         }
         void test3()
         {
