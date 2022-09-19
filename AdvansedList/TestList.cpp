@@ -10,13 +10,12 @@ namespace ListSpace
         void test1()
         {
             ListSpace::List* l = ListFactory::GenListof1el("Adel", 100);
-            std::cout << "My name is: " << l->name << "\nMy mark is: " << l->mark << std::endl;
+            std::cout << "My name is: " << l->name << "; My mark is: " << static_cast<int>(l->mark) << std::endl;
             
         }
         void test2()
         {
-            ListSpace::List* l = ListFactory::GenListof1el("Adel", 100);
-            ListSpace::List* l2 = ListFactory::GenListof2el(l->name,l->mark,"Almaz",95);
+            ListSpace::List* l2 = ListFactory::GenListof2el("Adel",100, "Almaz", 95);
             List* head = l2;
             while (head != nullptr)
             {
@@ -26,24 +25,9 @@ namespace ListSpace
         }
         void test3()
         {
-            List* list3{ nullptr };
-            bool f = has_loop(list3);
-            std::cout << f << std::endl;
+            ListSpace::List* l2 = ListFactory::To2elLoop("Adel", 100, "Almaz", 95);
         }
-        bool has_loop(List* head)
-        {
-            auto hare = head;
-            auto tortois = head;
-            head = new List{ "mariyam", 100 };
-            while (hare != NULL && hare->next != NULL)
-            {
-                hare = hare->next->next;
-                tortois = tortois->next;
-                if (hare == tortois)
-                    return true;
-            }
-            return false;
-        }
+       
 
 
 
