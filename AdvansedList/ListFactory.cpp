@@ -2,31 +2,43 @@
 #include<iostream>
 namespace ListSpace
 {
-	List* ListFactory::GenListof1el(const std::string& name, unsigned char mark) // по ссылке на чтение передаем
-	{
-		//ListSpace::List list(name, mark);
-		List* l = new List(name,mark);
+	// generates a list of zeo elements --- returns a nullptr --- it is a base for a variadic template recursive function
+	// it is only a helper function that is used by the ListFactory class methods
+	constexpr List* helperListGenerator()
+{
+    return nullptr;
+}
 
-		return l;
-	}
-	List* ListFactory::GenListof2el(const std::string& name1, unsigned char mark1,
-		const std::string& name2, unsigned char mark2) 
-	{
-		List* l = new List(name1, mark1);
-		l->next = new List(name2, mark2);
-		return l;
-	}
-	List* ListFactory::To2elLoop(const std::string& name1, unsigned char mark1,
-		const std::string& name2, unsigned char mark2) 
-	{   
-		List* l = new List(name1, mark1);
-		l->next = new List(name2, mark2);
-		l = ListFactory::SetLoop(l);
-		return l;
-	}
-	 List* ListFactory::SetLoop(List* list)  // изначально нет цикла в списке -> вручную зацикливаем путем присвоения последнему элементу первого (list)
+	// generates a list, element by element using a variadic template recursive function
+template<typename Name, typename Mark, typename... Args>
+constexpr List* helperListGenerator(Name name, Mark mark, Args... args)
+{
+    List* l = new List{ name, mark, helperListGenerator(args...) };
+    return l;
+}
+
+template< typename... Args>
+constexpr List* ListFactory::generateList(Args... args)
+{
+    static_assert(((sizeof...(args)) % 2 == 0), "The last list element cannot be created: not enough constructor arguments!"); // check the parameter count
+    return helperListGenerator(args...);
+}
+	
+	
+template< typename... Args>
+constexpr List* ListFactory::generateListLoop(Args... args)
+{
+    static_assert(((sizeof...(args)) % 2 == 0), "The last list element cannot be created: not enough constructor arguments!"); // check the parameter count
+	
+    List* head{helperListGenerator(args...)}};
+	return SetLoop(head);
+}
+	
+	
+	
+	 List* ListFactory::SetLoop(List* list)  // ГЁГ§Г­Г Г·Г Г«ГјГ­Г® Г­ГҐГІ Г¶ГЁГЄГ«Г  Гў Г±ГЇГЁГ±ГЄГҐ -> ГўГ°ГіГ·Г­ГіГѕ Г§Г Г¶ГЁГЄГ«ГЁГўГ ГҐГ¬ ГЇГіГІГҐГ¬ ГЇГ°ГЁГ±ГўГ®ГҐГ­ГЁГї ГЇГ®Г±Г«ГҐГ¤Г­ГҐГ¬Гі ГЅГ«ГҐГ¬ГҐГ­ГІГі ГЇГҐГ°ГўГ®ГЈГ® (list)
 	 {
-     	 List* head = list;
+     	 	List* head = list;
 
 		 while (head->next != nullptr)
 		 {
@@ -35,5 +47,8 @@ namespace ListSpace
 		 head ->next = list;
 		 return list;
 	 }
+	
+	
+	
 
 } // ListSpace
